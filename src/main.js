@@ -10,6 +10,12 @@ Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios
 
-new Vue({
+//axios.defaults.baseURL = 'http://localhost:80'
+axios.defaults.baseURL = ''
+
+let vue = new Vue({
   render: h => h(App),
 }).$mount('#app')
+
+
+export default vue;

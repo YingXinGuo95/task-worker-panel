@@ -23,12 +23,19 @@ export default {
   },
   methods: {
     addTask: function (){
-      this.$axios.get('https://www.baidu.com')
-          .then(function (response) {
-            this.$Message.success(response);
-
-            this.downloadURL = "";
-          }).catch(function (error) {
+      this.$axios.get('/download/addTask', {
+        params:{
+          taskURL: this.downloadURL
+        }
+      }).then(function (response) {
+        let result = response.data;
+        if (result.code === 0) {
+          this.$Message.success(result.message);
+          this.downloadURL = "";
+        } else {
+          this.$Message.error(result.message);
+        }
+      }.bind(this)).catch(function (error) {
             console.error(error);
       });
     }

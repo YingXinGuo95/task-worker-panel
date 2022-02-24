@@ -28,32 +28,24 @@ export default {
   },
   methods: {
     listFiles: function () {
-      this.isLoading = false;
-      this.fileList = [
-        {fileName: '更新测试文件1', fileSize: 10000},
-        {fileName: '更新测试文件2', fileSize: 52155},
-        {fileName: '更新测试文件3', fileSize: 10000},
-        {fileName: '更新测试文件4', fileSize: 10000},
-      ];
+      this.isLoading = true;
 
-
-      /*this.$axios.get('https://www.baidu.com')
+      this.$axios.get('/download/listFile')
           .then(function (response) {
-            console.log(response);
+            let result = response.data;
+            if (result.code !== 0) {
+              this.$Message.error(result.message);
+            }
 
-            this.fileList = [
-              {fileName: '更新测试文件1', fileSize: 10000},
-              {fileName: '更新测试文件2', fileSize: 52155},
-              {fileName: '更新测试文件3', fileSize: 10000},
-              {fileName: '更新测试文件4', fileSize: 10000},
-            ];
+            this.fileList = [];
+            for (const rowData of result.data) {
+              this.fileList.push({fileName: rowData.fileName, fileSize: rowData.size})
+            }
 
             this.isLoading = false;
-
-          }).catch(function (error) {
-            console.log(error);
-            this.isLoading = false;
-      });*/
+          }.bind(this)).catch(function (error) {
+            console.error(error);
+      });
     }
   },
   created(){
